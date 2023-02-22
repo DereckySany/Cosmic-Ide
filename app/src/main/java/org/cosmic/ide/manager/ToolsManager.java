@@ -24,6 +24,7 @@ public class ToolsManager {
                             writeKotlinStdLibDex();
                             writeKotlinCommonStdLib();
                             writeLambdaStubs();
+                            writeIndex();
                         })
                 .whenComplete(
                         (__, error) -> {
@@ -50,6 +51,18 @@ public class ToolsManager {
 
         if (!androidJar.exists()) {
             ZipUtilKt.unzipFromAssets(App.context, "android.jar.zip", FileUtil.getClasspathDir());
+        }
+    }
+
+    private static void writeIndex() {
+        final var index = new File(FileUtil.getDataDir(), "index.json");
+        if (!index.exists()) {
+            try {
+                FileUtil.writeFile(
+                         App.context.getAssets().open("index.json"), index.getAbsolutePath());
+            } catch (IOException) {
+                Log.d(TAG, "Cannot extract index.json");
+            }
         }
     }
 

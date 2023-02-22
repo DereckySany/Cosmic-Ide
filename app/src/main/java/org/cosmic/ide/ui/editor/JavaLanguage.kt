@@ -58,6 +58,9 @@ private val TAG = "JavaLanguage"
                     Files.write(path, text.toByteArray())
             val result = completions.project.getCompletionResult(path, position.line, position.column)
             result.completionCandidates.forEach {
+                    if (it.name == "<error>") {
+                        continue
+                    }
                     val item = SimpleCompletionItem(it.name, it.detail.orElse("Unknown"), result.prefix.length, it.name)
             publisher.addItem(item)
             }

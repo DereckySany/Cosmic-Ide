@@ -165,7 +165,7 @@ class FileWatcher {
     private class WatchRunnable implements Runnable {
         @Override
         public void run() {
-            for (; ; ) {
+            while (true) {
                 WatchKey watchKey;
                 try {
                     watchKey = watchService.take();
